@@ -10,6 +10,63 @@
 </head>
 <body>
   
+  <div id="app">
+    <div class="container">
+      <div class="row pt-4">
+        <div class="col-lg-6">
+          <h2 class="mb-4">產品列表</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th width="25%" scope="col">產品名稱</th>
+                <th scope="col">原價</th>
+                <th scope="col">售價</th>
+                <th scope="col">是否啟用</th>
+                <th scope="col">查看細節</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in products" :key="item.id">
+                <th scope="row">{{ item.title }}</th>
+                <td>{{ item.origin_price }}</td>
+                <td>{{ item.price }}</td>
+                <td>
+                  <p v-if="item.is_enabled" class="text-success">啟用</p>
+                  <p v-else class="text-danger">不啟用</p>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-primary" @click="temp = item" :key="item.title">查看細節</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p>目前有 {{ products.length }} 項產品</p>
+        </div>
+        <div class="col-lg-6">
+          <h2>單一產品細節</h2>
+          <p v-if="!temp.title">請選擇一個商品查看</p>
+          <template v-else>
+            <div v-else-if="temp.title" class="card mb-3">
+              <img :src="temp.imageUrl" class="card-img-top h-300" :alt="temp.title">
+              <div class="card-body">
+                <div class="card-title">
+                  <h3>{{ temp.title }} <span class="badge bg-primary fs-6">{{ temp.category }}</span></h3>
+                </div>
+                <p class="card-text">商品描述：{{ temp.description }}</p>
+                <p class="card-text">商品內容：{{ temp.content }}</p>
+                <p>{{ temp.price }} <del>{{ temp.origin_price }}</del>元 / {{ temp.unit }}</p>
+              </div>
+            </div>
+            <template v-for="item in temp.imagesUrl">
+              <img class="h-150 m-2" :src="item" :alt="temp.title">
+            </template>
+          </template>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://unpkg.com/vue@next"></script>
+  <script src="./all.js"></script>
 </body>
 </html>
